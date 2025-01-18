@@ -35,6 +35,9 @@ conda activate coalesce
 pip install -r requirements.txt
 ```
 
-5. manually create `passwords.py` file in the `/server` folder, and paste api keys
-6. ask Cassandra to send you an invite to the Atlas platform to access the MongoDB database. Also send her your IP address so she can add it to the list of approved IP addresses
-7. If you encounter any problems running the server, reach out to Cassandra 
+5. manually create `passwords.py` file in the `/server` folder, and add the following 
+    - `open_ai_api_key`: imported in `dspy_accessor.py` 
+    - `mongodb_uri`: imported in `server.py`
+    - `flask_secret_key`: imported in `server.py`
+    - `redis_broker_url`: imported in `server.py`
+
