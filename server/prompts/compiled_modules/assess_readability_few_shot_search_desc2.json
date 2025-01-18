@@ -1,0 +1,97 @@
+{
+  "readability": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"open\", \"description\": \"Inquires about the maintenance of public spaces\", \"main_text\": \"How clean are the public areas you visit?\", \"response_categories\": []}",
+        "reading_level": "third grade",
+        "rationale": "produce the readability. The question meets a third grade reading level as it contains simple words and is a concise question with a single proposition.",
+        "readability": "high"
+      },
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question on the effectiveness of the city's efforts to inform the public about emergency procedures.\", \"main_text\": \"How would you rate the effectiveness of the city's endeavors to disseminate information pertaining to emergency procedures?\", \"response_categories\": [{\"id\": 1, \"text\": \"Highly effective\"}, {\"id\": 2, \"text\": \"Moderately effective\"}, {\"id\": 3, \"text\": \"Somewhat effective\"}, {\"id\": 4, \"text\": \"Not very effective\"}, {\"id\": 5, \"text\": \"Not effective at all\"}]}",
+        "reading_level": "third grade",
+        "rationale": "produce the readability. The question does not meet a third grade reading level as it contains complex words like 'disseminate' and 'endeavors'. It is also a complex question with multiple propositions.",
+        "readability": "low"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about public safety perception\", \"main_text\": \"Do you feel safe walking in your neighborhood at night?\", \"response_categories\": [{\"id\": 1, \"text\": \"Yes\"}, {\"id\": 2, \"text\": \"No\"}]}",
+        "readability": "high",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question on waste management practices\", \"main_text\": \"What are your observations on the city's waste management practices, particularly in relation to recycling and composting initiatives, and how might these be augmented?\", \"response_categories\": []}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question regarding the utilization of urban green spaces.\", \"main_text\": \"To what extent do you concur with the assertion that urban green spaces under the jurisdiction of the municipality are underutilized by the populace?\", \"response_categories\": [{\"id\": 1, \"text\": \"Fully concur\"}, {\"id\": 2, \"text\": \"Somewhat concur\"}, {\"id\": 3, \"text\": \"Neither concur nor disagree\"}, {\"id\": 4, \"text\": \"Somewhat disagree\"}, {\"id\": 5, \"text\": \"Fully disagree\"}]}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about noise levels\", \"main_text\": \"How would you describe the noise level in your neighborhood?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very quiet\"}, {\"id\": 2, \"text\": \"Quiet\"}, {\"id\": 3, \"text\": \"A bit noisy\"}, {\"id\": 4, \"text\": \"Very noisy\"}, {\"id\": 5, \"text\": \"Extremely noisy\"}]}",
+        "readability": "high",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Queries on the satisfaction with city cleaning services using passive voice and a more complex structure.\", \"main_text\": \"With the services for cleaning by the city, how satisfied are you?\", \"response_categories\": []}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Inquires about awareness and use of community support services\", \"main_text\": \"Are you aware of and do you use any community support services?\", \"response_categories\": []}",
+        "readability": "high",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Asks about the frequency of park visits without directly mentioning the frequency.\", \"main_text\": \"Can you describe how not often you find yourself not going to the park?\", \"response_categories\": []}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question not adhering to active voice.\", \"main_text\": \"By the city's public transportation system, how satisfied are you?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very satisfied\"}, {\"id\": 2, \"text\": \"Somewhat satisfied\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat dissatisfied\"}, {\"id\": 5, \"text\": \"Very dissatisfied\"}]}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about satisfaction with public transportation cleanliness.\", \"main_text\": \"How clean do you find the buses or trains?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very clean\"}, {\"id\": 2, \"text\": \"Clean\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Dirty\"}, {\"id\": 5, \"text\": \"Very dirty\"}]}",
+        "readability": "high",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about the sufficiency of city-supported child care services.\", \"main_text\": \"Considering the operational frameworks and capacity of city-supported child care facilities, does their service provision align with the requisites of guardians?\", \"response_categories\": [{\"id\": 1, \"text\": \"Strongly agree\"}, {\"id\": 2, \"text\": \"Agree\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Disagree\"}, {\"id\": 5, \"text\": \"Strongly disagree\"}]}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Enquiring about preferences for new city projects.\", \"main_text\": \"What new projects are hoped to be seen in the city?\", \"response_categories\": []}",
+        "readability": "medium",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"This question queries about participation in community events without clarifying 'community events'.\", \"main_text\": \"How often do you participate in community events?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very frequently\"}, {\"id\": 2, \"text\": \"Frequently\"}, {\"id\": 3, \"text\": \"Sometimes\"}, {\"id\": 4, \"text\": \"Rarely\"}, {\"id\": 5, \"text\": \"Never\"}]}",
+        "readability": "low",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Understanding citizen's primary concern regarding city services to better prioritize resources.\", \"main_text\": \"What city service do you think needs the most improvement?\", \"response_categories\": []}",
+        "readability": "high",
+        "reading_level": "third grade"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about satisfaction with local bus services\", \"main_text\": \"How happy are you with the bus service in our city?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very happy\"}, {\"id\": 2, \"text\": \"Somewhat happy\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat unhappy\"}, {\"id\": 5, \"text\": \"Very unhappy\"}]}",
+        "readability": "high",
+        "reading_level": "third grade"
+      }
+    ],
+    "signature_instructions": "Assess the readability of a question to high, medium, or low. Keep in mind the following qualities, for a question to be readable:\n        (1) Question should meet the inputted reading level.\n        (2) Question should not contain basic spelling or grammar mistakes.\n        (3) Question should be concise.\n        (4) Question should not contain potential jargon (e.g. special words or expressions that are used by a particular profession or group and are difficult for others to understand) that are not defined.\n        (5) Question should not contain any acronyms that are not defined.\n        (6) Question should not mention proper nouns (e.g. names of specific people, places, or organizations) without describing what they are.\n        (7) Question should be in active voice.\n        (8) Question should have as few propositions and logical operators as possible.\n        (9) Question should not have negatives or double negatives.\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "signature_prefix": "Readability:",
+    "extended_signature_instructions": "Assess the readability of a question to high, medium, or low. Keep in mind the following qualities, for a question to be readable:\n        (1) Question should meet the inputted reading level.\n        (2) Question should not contain basic spelling or grammar mistakes.\n        (3) Question should be concise.\n        (4) Question should not contain potential jargon (e.g. special words or expressions that are used by a particular profession or group and are difficult for others to understand) that are not defined.\n        (5) Question should not contain any acronyms that are not defined.\n        (6) Question should not mention proper nouns (e.g. names of specific people, places, or organizations) without describing what they are.\n        (7) Question should be in active voice.\n        (8) Question should have as few propositions and logical operators as possible.\n        (9) Question should not have negatives or double negatives.\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "extended_signature_prefix": "Readability:"
+  }
+}

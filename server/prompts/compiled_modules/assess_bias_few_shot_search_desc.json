@@ -1,0 +1,79 @@
+{
+  "bias": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about educational resources.\", \"main_text\": \"Given the critical importance of education for our children's future, how would you rate the adequacy of educational resources available in our city?\", \"response_categories\": []}",
+        "rationale": "determine the bias. We can see that the question contains emotionally loaded language by stating that education is of critical importance for children's future, which could influence respondents' opinions.",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Asks about the disadvantages of zoning changes and education system funding.\", \"main_text\": \"In what ways have the city\\u2019s zoning changes and the funding for the education system disadvantaged you or your community?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question asking about waste management services and use of public spaces.\", \"main_text\": \"How satisfied are you with the city's waste management services and the availability and maintenance of public spaces like parks and recreational areas?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about the impact of public art and cultural initiatives\", \"main_text\": \"How do public art and cultural initiatives within the city impact your sense of community and well-being?\", \"response_categories\": []}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Evaluate the level of community engagement in city planning.\", \"main_text\": \"How would you describe your level of engagement in city planning and decision-making processes?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very engaged\"}, {\"id\": 2, \"text\": \"Somewhat engaged\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat disengaged\"}, {\"id\": 5, \"text\": \"Very disengaged\"}]}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Assumes the respondent is unhappy with the public transportation options available.\", \"main_text\": \"What improvements do you think are necessary for the public transportation options you reluctantly use?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about the emotional impact of the city's nightlife management\", \"main_text\": \"How outraged are you by the city's blatant disregard for promoting a vibrant nightlife?\", \"response_categories\": [{\"id\": 1, \"text\": \"Extremely outraged\"}, {\"id\": 2, \"text\": \"Very outraged\"}, {\"id\": 3, \"text\": \"Somewhat outraged\"}, {\"id\": 4, \"text\": \"Not very outraged\"}, {\"id\": 5, \"text\": \"Not outraged at all\"}]}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question on the perceived bias in city funding allocation\", \"main_text\": \"How concerned are you about the city's biased allocation of funds favoring certain neighborhoods over others?\", \"response_categories\": [{\"id\": 1, \"text\": \"Extremely concerned\"}, {\"id\": 2, \"text\": \"Very concerned\"}, {\"id\": 3, \"text\": \"Somewhat concerned\"}, {\"id\": 4, \"text\": \"Not at all concerned\"}, {\"id\": 5, \"text\": \"I see no bias in funding allocation\"}]}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about the frequency of park visits\", \"main_text\": \"How often do you visit city parks?\", \"response_categories\": [{\"id\": 1, \"text\": \"Daily\"}, {\"id\": 2, \"text\": \"Weekly\"}, {\"id\": 3, \"text\": \"Monthly\"}, {\"id\": 4, \"text\": \"Rarely\"}, {\"id\": 5, \"text\": \"Never\"}]}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question asking about zoning changes and education funding.\", \"main_text\": \"How have the city\\u2019s recent zoning changes and the funding for the education system together impacted your community or family?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about recycling initiatives.\", \"main_text\": \"How do you view the city's groundbreaking recycling initiatives that are leading us towards a greener future?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Gauging perception of city safety\", \"main_text\": \"How safe do you feel in the city?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very unsafe\"}, {\"id\": 2, \"text\": \"Somewhat unsafe\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat safe\"}, {\"id\": 5, \"text\": \"Very safe\"}]}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"This question aims to understand the frequency of public transportation use without assuming dissatisfaction or reluctance.\", \"main_text\": \"How often do you use the city's public transportation?\", \"response_categories\": [{\"id\": 1, \"text\": \"Daily\"}, {\"id\": 2, \"text\": \"Several times a week\"}, {\"id\": 3, \"text\": \"Weekly\"}, {\"id\": 4, \"text\": \"Monthly\"}, {\"id\": 5, \"text\": \"Rarely or never\"}]}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Implies the respondent has been negatively impacted by the city's zoning decisions.\", \"main_text\": \"In what ways have the city\\u2019s recent zoning changes disadvantaged you or your community?\", \"response_categories\": []}",
+        "bias": "true"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Determining the popularity of cycling lanes\", \"main_text\": \"How often do you use the city's cycling lanes?\", \"response_categories\": [{\"id\": 1, \"text\": \"Daily\"}, {\"id\": 2, \"text\": \"Weekly\"}, {\"id\": 3, \"text\": \"Monthly\"}, {\"id\": 4, \"text\": \"Rarely\"}, {\"id\": 5, \"text\": \"Never\"}]}",
+        "bias": "false"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about public transportation and environmental policies.\", \"main_text\": \"Can you discuss the impact of the city\\u2019s public transportation system on local environmental policies and how both areas meet or fail your expectations?\", \"response_categories\": []}",
+        "bias": "true"
+      }
+    ],
+    "signature_instructions": "Assess whether a question is biased or not. Keep in mind the following forms of bias:\n        (1) Leading questions, which are phrased in a way that suggests a particular answer is more desirable or correct. They tend to have subjective adjectives, or context-laden words that frame the question in a positive or negative light.\n        (2) Making assumptions about respondents' behaviors, attitudes, or goals. These questions tend to guess information instead of asking for it.\n        (3) Double-barreled questions, which ask about two or more things simultaneously.\n        (4) Emotionally loaded language, which has emotionally loaded terms or phrases that imply judgment or assume a particular stance. Words that carry strong positive or negative connotations can influence respondents' emotions and responses.\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "signature_prefix": "Bias:",
+    "extended_signature_instructions": "Assess whether a question is biased or not. Keep in mind the following forms of bias:\n        (1) Leading questions, which are phrased in a way that suggests a particular answer is more desirable or correct. They tend to have subjective adjectives, or context-laden words that frame the question in a positive or negative light.\n        (2) Making assumptions about respondents' behaviors, attitudes, or goals. These questions tend to guess information instead of asking for it.\n        (3) Double-barreled questions, which ask about two or more things simultaneously.\n        (4) Emotionally loaded language, which has emotionally loaded terms or phrases that imply judgment or assume a particular stance. Words that carry strong positive or negative connotations can influence respondents' emotions and responses.\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "extended_signature_prefix": "Bias:"
+  }
+}

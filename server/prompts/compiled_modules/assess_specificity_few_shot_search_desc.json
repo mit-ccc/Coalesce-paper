@@ -1,0 +1,79 @@
+{
+  "specificity": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"open\", \"description\": \"A question that combines the ideas of local government trust and public park usage.\", \"main_text\": \"How much do you trust your local government's decisions on public parks and how often do you visit these parks?\", \"response_categories\": []}",
+        "rationale": "determine the specificity. We first need to identify if the question measures only one underlying concept. In this case, the question combines two concepts: trust in local government decisions regarding public parks and frequency of park visits. Therefore, the question is not specific in measuring only one underlying concept.",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about city recreational facilities\", \"main_text\": \"What improvements would you like to see in the city's recreational facilities in the next year?\", \"response_categories\": []}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about satisfaction with local schools\", \"main_text\": \"How satisfied are you with the quality of education provided by local schools in the past academic year?\", \"response_categories\": []}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Inquires about park usage without a clear time reference\", \"main_text\": \"How often do you use city parks?\", \"response_categories\": [{\"id\": 1, \"text\": \"Daily\"}, {\"id\": 2, \"text\": \"Weekly\"}, {\"id\": 3, \"text\": \"Monthly\"}, {\"id\": 4, \"text\": \"Rarely\"}, {\"id\": 5, \"text\": \"Never\"}]}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"This question assesses residents' satisfaction with the city's water quality.\", \"main_text\": \"How would you rate the quality of tap water in your home?\", \"response_categories\": [{\"id\": 1, \"text\": \"Excellent\"}, {\"id\": 2, \"text\": \"Good\"}, {\"id\": 3, \"text\": \"Average\"}, {\"id\": 4, \"text\": \"Poor\"}, {\"id\": 5, \"text\": \"Very Poor\"}]}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about public library usage\", \"main_text\": \"In the last 12 months, how often have you used the city's public library services?\", \"response_categories\": [{\"id\": 1, \"text\": \"Never\"}, {\"id\": 2, \"text\": \"Rarely\"}, {\"id\": 3, \"text\": \"Occasionally\"}, {\"id\": 4, \"text\": \"Frequently\"}, {\"id\": 5, \"text\": \"Very frequently\"}]}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about the impact of city projects on local traffic.\", \"main_text\": \"In the last six months, how have city projects impacted traffic flow in your area?\", \"response_categories\": [{\"id\": 1, \"text\": \"Significantly improved\"}, {\"id\": 2, \"text\": \"Somewhat improved\"}, {\"id\": 3, \"text\": \"No change\"}, {\"id\": 4, \"text\": \"Somewhat worsened\"}, {\"id\": 5, \"text\": \"Significantly worsened\"}]}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Lacks a specific time frame for a recent change\", \"main_text\": \"Since the new policy was introduced, what changes have you noticed in your neighborhood?\", \"response_categories\": []}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Inquiring about traffic condition experiences\", \"main_text\": \"What has been your experience with traffic conditions during your daily commute in the past six months?\", \"response_categories\": []}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about satisfaction with public library services.\", \"main_text\": \"How satisfied are you with the services provided by the city's public libraries in the last year?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very satisfied\"}, {\"id\": 2, \"text\": \"Somewhat satisfied\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat dissatisfied\"}, {\"id\": 5, \"text\": \"Very dissatisfied\"}]}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question that merges the concepts of public health and community engagement.\", \"main_text\": \"Can you describe how the local health initiatives have affected your family's health and participation in community events during the COVID-19 pandemic?\", \"response_categories\": []}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"This question lacks a specific reference frame and combines the concept of frequency and quality regarding public transportation.\", \"main_text\": \"How often and efficiently do you think the public transport operates?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very often and efficiently\"}, {\"id\": 2, \"text\": \"Often but not efficiently\"}, {\"id\": 3, \"text\": \"Efficiently but not often\"}, {\"id\": 4, \"text\": \"Neither often nor efficiently\"}]}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"Question about satisfaction with emergency services\", \"main_text\": \"How satisfied are you with the city's emergency services response times?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very satisfied\"}, {\"id\": 2, \"text\": \"Somewhat satisfied\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Somewhat dissatisfied\"}, {\"id\": 5, \"text\": \"Very dissatisfied\"}]}",
+        "specificity": "pass"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Question about preferred city services without a specific time frame\", \"main_text\": \"What city service would you like to see improved, and why?\", \"response_categories\": []}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"Asks for an opinion on two unrelated city services without specifying any context or timeframe.\", \"main_text\": \"What are your thoughts on the city's educational and transportation services?\", \"response_categories\": []}",
+        "specificity": "fail"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"This question aims to understand the frequency of library usage.\", \"main_text\": \"How often did you visit a city library in the last 6 months?\", \"response_categories\": [{\"id\": 1, \"text\": \"More than once a week\"}, {\"id\": 2, \"text\": \"Weekly\"}, {\"id\": 3, \"text\": \"Monthly\"}, {\"id\": 4, \"text\": \"Less than monthly\"}, {\"id\": 5, \"text\": \"Never\"}]}",
+        "specificity": "pass"
+      }
+    ],
+    "signature_instructions": "Assess whether a question is specific enough. Keep in mind the following qualities, for a question to be specific:\n        (1) Question should measure only one underlying concept.\n        (2) Question should refer to a specific reference frame (e.g. times and places) that is clear to the respondent.\n        (3) Question should not contain any ambiguous words that could be interpreted in multiple ways. Question should contain terms that will have the same specific meaning to all respondents.\n        (4) Question, not including the response categories, should not contain any predicates whose meanings are relative rather than absolute, as it is the case with quantitative adjectives or adverbs (e.g. often and frequently).\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "signature_prefix": "Specificity:",
+    "extended_signature_instructions": "Assess whether a question is specific enough. Keep in mind the following qualities, for a question to be specific:\n        (1) Question should measure only one underlying concept.\n        (2) Question should refer to a specific reference frame (e.g. times and places) that is clear to the respondent.\n        (3) Question should not contain any ambiguous words that could be interpreted in multiple ways. Question should contain terms that will have the same specific meaning to all respondents.\n        (4) Question, not including the response categories, should not contain any predicates whose meanings are relative rather than absolute, as it is the case with quantitative adjectives or adverbs (e.g. often and frequently).\n\nPlease cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.",
+    "extended_signature_prefix": "Specificity:"
+  }
+}

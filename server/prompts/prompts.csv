@@ -1,0 +1,588 @@
+task,status,priority ,prompt_creator,feature_category,model,in_dspy,is_optimized,signature_name,module_name,signature_description,input_descriptions,output_descriptions,test_example,training_data,validation_data,optimized_module,optimization_code,notes
+"Determine whether a question is demographic, attitudinal or behavioral",First pass done,Medium,Suyash,Analyze topics,gpt-3.5-turbo,Yes,Yes,ClassifyQuestionType,ClassifyQuestionTypeModule,"Classify the question type. There are three types of questions: demographic, attitudinal, and behavioral.
+Demographic questions ask about the personal background of respondents.
+Attitudinal questions ask about respondents' personal perceptions and opinions on different topics.
+Behavioral questions ask for data on the frequency and way in which particular actions are performed.","{""question"": ""The question to classify. The input will be a JSON with the following structure: {cell_details_json_format}""}","{""question_type"": ""The question type. Only output one of the following strings; demographic, attitudinal, behavior. Don't include any other information in the output.""}","{
+        ""question"": {
+            ""cell_type"": ""question"",
+            ""response_format"": ""open"",
+            ""description"": """",
+            ""main_text"": ""What is a favorite experience or memory you have at X Park?"",
+            ""response_categories"": []
+        }
+}",question_type_outputs_train.json,question_type_outputs_val.json,classify_question_type_few_shot_search.json,questionTypePrompts.py,"- examples were generated with GPT-4. there was minimal overlap between the training and validation sets
+- TODO ignore the description field"
+Assess readability of a question,Refined,High,Cassandra,Check question,gpt-3.5-turbo,Yes,Yes,AssessReadability,AssessReadabilityModule,"Assess the readability of a question to high, medium, or low. Keep in mind the following qualities, for a question to be readable:
+        (1) Question should meet the inputted reading level.
+        (2) Question should not contain basic spelling or grammar mistakes.
+        (3) Question should be concise.
+        (4) Question should not contain potential jargon (e.g. special words or expressions that are used by a particular profession or group and are difficult for others to understand) that are not defined.
+        (5) Question should not contain any acronyms that are not defined.
+        (6) Question should not mention proper nouns (e.g. names of specific people, places, or organizations) without describing what they are.
+        (7) Question should be in active voice.
+        (8) Question should have as few propositions and logical operators as possible.
+        (9) Question should not have negatives or double negatives.
+
+Please cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.","{""question"": ""The question to classify. The input will be a JSON with the following structure: {cell_details_json_format}"",
+""reading_level"": ""The reading level to assess the question against.""}","{""readability"": ""The readability of the question. Only output one of the following strings: low, medium, or high. Don't include any other information in the output.""}",,readability_outputs_train.json,readability_outputs_val.json,assess_readability_few_shot_search_desc2.json,questionReadabilityPromptsV2.ipynb,"- BootstrapFewShotWithRandomSearch gives a validation accuracy of 68.0%. Accuracy on out-of-distribution examples is 4/13, which is a 30.8% accuracy."
+Assess bias of a question,Refined,High,Cassandra,Check question,gpt-3.5-turbo,Yes,Yes,AssessBias,AssessBiasModule,"Assess whether a question is biased or not. Keep in mind the following forms of bias:
+        (1) Leading questions, which are phrased in a way that suggests a particular answer is more desirable or correct. They tend to have subjective adjectives, or context-laden words that frame the question in a positive or negative light.
+        (2) Making assumptions about respondents' behaviors, attitudes, or goals. These questions tend to guess information instead of asking for it.
+        (3) Double-barreled questions, which ask about two or more things simultaneously.
+        (4) Emotionally loaded language, which has emotionally loaded terms or phrases that imply judgment or assume a particular stance. Words that carry strong positive or negative connotations can influence respondents' emotions and responses.
+
+Please cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.","{""question"": ""The question to classify. The input will be a JSON with the following structure: {cell_details_json_format}""}","{""bias"": ""Whether a question has bias or not. Output true if the question is biased, and false if the question is not biased.""}",,bias_outputs_train.json,bias_outputs_val.json,assess_bias_few_shot_search_desc.json,questionBiasPrompts.ipynb,"- For BootstrapFewShotWithRandomSearch (with descriptions in training data), average metric on validation set is 92 / 96 (95.8%)
+- the few shot with random search (with descriptions in training data) got an accuracy of 13 out of 20. 65.0% accuracy on questions from the question bank
+- It seems like the optimization made the module perform worse on out-of-distribution questions. I'll still go with assess_bias_few_shot_search_desc for now since it has a decent accuracy for out of distribution questions and a really good accuracy for in distribution questions"
+Assess specificity of a question,Refined,High,Cassandra,Check question,gpt-3.5-turbo,Yes,Yes,AssessSpecificity,AssessSpecificityModule,"Assess whether a question is specific enough. Keep in mind the following qualities, for a question to be specific:
+        (1) Question should measure only one underlying concept.
+        (2) Question should refer to a specific reference frame (e.g. times and places) that is clear to the respondent.
+        (3) Question should not contain any ambiguous words that could be interpreted in multiple ways. Question should contain terms that will have the same specific meaning to all respondents.
+        (4) Question, not including the response categories, should not contain any predicates whose meanings are relative rather than absolute, as it is the case with quantitative adjectives or adverbs (e.g. often and frequently).
+
+Please cite specific qualities that the question does or doesn't follow in your rationale. Also quote specific parts of the question in your rationale.","{""question"": ""The question to classify. The input will be a JSON with the following structure: {cell_details_json_format}""}","{""specificity"": ""Whether a question is specific enough. Output pass if the question is specific enough, and fail if the question lacks sufficient specificity.""}",,specificity_outputs_train.json,specificity_outputs_val.json,assess_specificity_few_shot_search_desc.json,questionSpecificityPrompts.ipynb,"- For BootstrapFewShotWithRandomSearch (with descriptions in training data), average metric on validation set is 38 / 48 (79.2%)
+- the few shot with random search (with descriptions in training data) got an accuracy of 8/12 which is 67% (it got 2/5 on the trickier questions). These questions were taken out of distribution from the question design lit review"
+Generate an alternative wording for a question,First pass done,High,Suyash,Generate multiple options,gpt-3.5-turbo,Yes,No,RewordQuestion,RewordQuestionModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. 
+
+Please think step-by-step and follow these instructions carefully:
+
+1. Please read through the context that the user has provided and other questions in the same section.
+2. Read the inputted question and identify 3 possible issues that may limit its effectiveness. For example does the question assume cases that may not be true?
+3. Of the issues you identified, identify the most immediate, likely, and realistic issue, which may limit the effectiveness of this question in informing decision-makers of how they should address the central challenge of this survey.
+4. Based on the issue you selected, please write 3 questions that may serve as superior alternatives to the one listed above, and which overcome the issue you found to be most prevalent. The questions should be independent from each other. For closed questions, please generate less than six response categories.   
+5. Output the reworded questions in the requested format.","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question."",
+""existing_questions"": ""The other questions in the same section. The questions are organized as a list of JSONs. Each JSON follows the following structure: {cell_details_json_format}"",
+""question"": ""The question to reword. The input will be a JSON with the following structure: {cell_details_json_format}""}","{""rewordings"": ""The 3 reworded questions. The output should be a list of JSONs where each element has the following structure: {question_json_format}. {json_formatting_message}""}","{
+    ""question"": {
+        ""response_format"": ""open"",
+        ""description"": ""A question about park amenities"",
+        ""main_text"": ""What kinds of amenities do you use most in local parks?"",
+        ""response_categories"": []
+    },
+    ""format"": ""text survey""
+}",,,,,"-  make sure the model doesn't modify the question description? --> dropped
+- TODO: test if this works for really large questions (I think we might hit max_token limits)"
+Generate an alternative question based on user's request,First pass done,High,Cassandra,Generate multiple options,gpt-3.5-turbo,Yes,No,RewordQuestionFromRequest,RewordQuestionFromRequestModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. A civic leader wants to re-write the question to achieve an inputted request.
+
+Please think step-by-step and follow these instructions carefully:
+
+1. Please read through the context that the user has provided and other questions in the same section.
+2. Read the inputted question and request and identify the key differences between the question and user request.
+3. Re-write the question in 3 ways that incorporate the differences you identified. The questions should be independent from each other. For closed questions, please generate less than six response categories.
+4. Output the 3 reworded questions in the requested format.","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question."",
+""existing_questions"": ""The other questions in the same section. The questions are organized as a list of JSONs. Each JSON follows the following structure: {cell_details_json_format}"",
+""question"": ""The question to reword. The input will be a JSON with the following structure: {cell_details_json_format}"",
+""format"": ""How community members will be asked the question. For example, a text survey or interview."",
+""request"": ""The user request to guide the rewording process.""}","{""rewordings"": ""The 3 reworded questions. The output should be a list of JSONs where each element has the following structure: {question_json_format}. {json_formatting_message}""}","{
+    ""question"": {
+        ""response_format"": ""open"",
+        ""description"": ""A question about park amenities"",
+        ""main_text"": ""What kinds of amenities do you use most in local parks?"",
+        ""response_categories"": []
+    },
+    ""format"": ""text survey"",
+    ""request"": ""Make this question more focused on different activities people can do in the park""
+}",,,,,"- currently I'm not setting a constraint on question type since depending on the user request it may change and we could let that happen for now --> dropped
+- make sure the model doesn't modify the question description? --> dropped
+- TODO: test if this works for really large questions (I think we might hit max_token limits)"
+Switching the response format,First pass done,Low,Suyash,Switching response format,gpt-3.5-turbo,Yes,No,SwitchResponseFormat,SwitchResponseFormatModule,"Please switch the response format for the inputted question. Open questions should become closed, and closed questions should become open. Preserve as much of the original meaning as possible, but modify the question as needed to be compatible with the new response format. For example, a closed question should not ask people to elaborate on anything beyond the response categories.","{""question"": ""The question to modify. The input will be a JSON with the following structure: {cell_details_json_format}""}","{""new_question"": ""The modified question. The output should be a JSON with the following structure: {cell_details_json_format}""}","{
+    ""question"": {
+        ""cell_type"": ""question"",
+        ""response_format"": ""open"",
+        ""description"": ""A question about park amenities"",
+        ""main_text"": ""What kinds of amenities do you use most in local parks?"",
+        ""response_categories"": []
+    }
+}
+
+{
+    ""question"": {
+        ""cell_type"": ""question"",
+        ""response_format"": ""closed"",
+        ""description"": ""A question about park amenities"",
+        ""main_text"": ""What kinds of amenities do you use most in local parks?"",
+        ""response_categories"": [
+            {""id"": 1, ""text"": ""Playgrounds""},
+            {""id"": 2, ""text"": ""Picnic areas""},
+            {""id"": 3, ""text"": ""Walking trails""},
+            {""id"": 4, ""text"": ""Sports fields""},
+            {""id"": 5, ""text"": ""Other""}
+        ]
+    }
+}",,,,,"- play with the balance between trying to preserve as much of the original meaning as possible and creating a new question that makes sense with a different response format. Example: the model outputted a closed question: ""Tell me about a memorable experience you had at X Park. Please describe it in detail."" This doesn't fit Yes/ No response categories --> tried to fix this in the sig_desc --> dropped"
+Convert rationale to more eloquent problem statement,Refined,High,Cassandra,Check question,gpt-4o-2024-05-13,Yes,No,CleanRationale,CleanRationaleModule,"Please take the inputted question, which has been flagged to have an inputted problem. Read through the inputted rationale, which tries to explain why the question has a particular problem. Please re-write the rationale in complete sentences to help users understand gaps in the question. Please keep your response between 20 and 50 words. Please start your response with ""This question"" followed by your rationale.","{
+    ""question"": ""The question to evaluate. The input will be a JSON with the following structure: {cell_details_json_format}"",
+    ""problem"": ""The problem with the question. The input will be a string."",
+    ""input_rationale"": ""The rationale for the problem. The input will be a string.""}","{""new_rationale"": ""The new rationale for the problem. The output will be a string.""}","{
+        ""question"": {
+            ""cell_type"": ""question"",
+            ""response_format"": ""open"",
+            ""description"": """",
+            ""main_text"": ""How much do you trust your local government's decisions on public parks and how often do you visit these parks?"",
+            ""response_categories"": []
+        },
+        ""problem"": ""lack of specificity"",
+        ""input_rationale"": ""Let's think step by step in order to determine the specificity. We first need to identify if the question measures only one underlying concept. In this case, the question combines two concepts: trust in local government decisions regarding public parks and frequency of park visits. Therefore, the question is not specific in measuring only one underlying concept.""
+    }",,,,,"- some of the rationales are very generic, so we should flag those and try to make them more specific --> tried to improve this
+- OPTIONAL TODO: ideas for optimization is here: https://github.com/mit-ccc/coalesce-question-generation/issues/71
+- will pass all rationales into this Module as a post-processing step"
+Re-write a question based on some detected problem,Refined,High,Cassandra,Check question,gpt-4o-2024-05-13,Yes,No,RewriteQuestion,RewriteQuestionModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. 
+
+Please think step-by-step and follow these instructions carefully:
+
+1. Please read through the context that the user has provided.
+2. Rewrite the inputted question to address the issues identified in the input_rationale. Please return 3 re-written questions.","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question."",
+""question"": ""The question to re-write. The input will be a JSON with the following structure: {cell_details_json_format}"",
+""input_rationale"": ""The rationale with potential issues in a question.""}","{""rewritten_questions"": ""The 3 re-written questions. The output should be a list of JSONs where each element has the following structure: {question_json_format}. {json_formatting_message}""}","{
+        ""question"": {
+            ""cell_type"": ""question"",
+            ""response_format"": ""open"",
+            ""description"": """",
+            ""main_text"": ""How much do you trust your local government's decisions on public parks and how often do you visit these parks?"",
+            ""response_categories"": []
+        },
+        ""input_rationale"": ""The question lacks specificity by combining two distinct concepts, trust in local government decisions on public parks, and frequency of park visits, which can lead to confusion and inaccurate responses.""
+    }",,,,,"- OPTIONAL TODO: refine the output description to make the three questions more independent of each other. Sometimes the models don't produce 3 rewritten questions (e.g. if a question asks about two things it generates two questions that separates the two concepts out)
+- Upon some testing: this module isn't very effective at actually addressing the problems with the question --> need to refine this
+- OPTIONAL  TODO: Related GH issues: https://github.com/mit-ccc/coalesce-question-generation/issues/70 + https://github.com/mit-ccc/coalesce-question-generation/issues/74 + https://github.com/mit-ccc/coalesce-question-generation/issues/76 
+- OPTIONAL TODO: could make sure the re-writing doesn't change the question type and response format"
+Generate initial interview guide based on responses to starting prompts + generate rationale for an AI-generated question,First pass done,High,Danny,Generating initial questions with LLMs,gpt-4o-2024-05-13,Yes,No,CreateInterviewDraft,CreateDraftModule,"<role>
+You are an advanced interview guide builder designed to use the information provided by users to create interview guides that they can use for their constituents.
+</role>
+
+<instructions>
+Please think step-by-step and follow these instructions carefully.
+1. Please read and re-read the context that the user has provided previously.
+2. Please generate a title for the interview guide. The title should be brief yet descriptive, accurately capturing the core context that is being explored through this interview endeavor. 
+3. Please generate a list of questions to help the user elicit useful information from their constituents. The total number of questions should be compatible with the time limit specified in the context. The proportion of open and closed questions is also defined in the context.
+4. Please organize the questions into sections. Each section should have a title. The questions should progress logically and linearly through a <beginning>, <middle>, and <end> to form a full interview guide. 
+5. Please review the questions provided and compose a detailed explanation for why that question is being asked of members of the given community. Please keep your response between 20 and 50 words. Use semicolons to separate list items. Please start your response with “This question” followed by your rationale. For example: “This question is being asked in order to... These rationales should populate the “rationale” field in the JSON output.
+6. Ensure that your output excludes any references to the instructions provided. For example, exclude reference to <beginning>, <middle>, or <end>.
+
+<beginning>
+To construct the first few questions in your interview guide, think step-by-step and follow these instructions carefully.
+1. Provide initial context on the interview, which includes the purpose, length, the nature of the interview, and how the information will be used.
+2. Start with an easy-to-answer, open question that is non threatening. The question should ask for information that helps the interviewer frame the next part of the interview.
+</beginning>
+
+<middle>
+To construct the next few questions in your interview guide, abide by these principles:
+Principle 1. Start with concrete, accessible and easy-to-answer questions about experiences Later, when the respondent is at ease and a degree of rapport is established, it is more fruitful to ask more challenging and abstract questions.
+Principle 2. The middle should consist of a short list of core questions with possible probing questions under each core question.
+Principle 3. Probing questions prompt respondents to reflect on, explain, and modify initial statements. Clearinghouse probes make sure you got all the important information about a topic by encouraging respondents to volunteer additional information. Informational probes ask for additional information or explanation (e.g., “Why do you think that…” or “What do you think…“).
+Principle 4. Strive for mostly open-ended questions with a few close-ended questions sprinkled throughout as breaks for respondents. Open-ended questions can start with the following stems: “Tell me about”, “Where were you when”, “Who was with you when”, What happened after”, “What did you say or do when”, “How did you feel when”, “What reasons did you have for”.
+</middle>
+
+<end>
+To construct the final few questions in your interview guide, think step-by-step and follow these instructions carefully.
+1. Use a clearinghouse question. Examples are “what have I not asked that you think is important for me to know?” or “have I answered all of your questions?”
+2. Express appreciation or satisfaction. Examples are “I really appreciate you making time for me on such a busy time” or “Thanks for being so candid with me”.
+3. Lay the groundwork for future contact. Explain what will happen next, where it will happen, when it will happen, and why it will happen.
+</end>
+</instructions>","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question.""}","{""questions"": ""The sections and questions. The output should be a list of JSON objects enclosed in square brackets, with each object separated by a comma. Each JSON object should have the following structure: {section_json_format}."", ""title"": ""The title of the interview guide as a string.""}","### What is the problem to be solved or the decision to be made?
+The Parks Department (""PD"") of a relatively small Massachusetts city (“Freeburg”) was recently granted state funds to make improvements to local parks. The PD doesn’t often receive grants of this size, so they want to make sure they use the funds effectively; if they use all the funds, they may be eligible for another grant next year.
+
+Freeburg has 13 parks. Some are quite small, and would only require minimal improvements (e.g., tree-planting, de-weeding), whereas others will require major improvements to address safety and usability concerns.
+
+Parks in wealthier neighborhoods of Freeburg tend to be nicer, which some residents believe may reflect a discrepancy in how tax funds are used and distributed by the city. The residents who take issue with these distributions tend to be lower-income and tend to live farther away from these parks, which have “higher-class” amenities, like tennis courts, public bathrooms, and water fountains with ground-level dog-bowl attachments. 
+
+### What information is needed from the public to make the decision?
+The parks were once well-kept, but in recent years, have been in a state of disarray, reflecting economic challenges that hit Freeburg hard during the COVID-19 pandemic. The PD needs to interview residents of the Freeburg community to understand their needs, interests, and priorities as they relate to the local parks; this information will be used to inform what kinds of improvements are made to the parks.
+
+The PD acknowledges that some improvements made by grant funds may lead to downstream costs that would not be covered by the grant, but the PD wishes to explore these anyway, due to their impact and long-term value for community members. For example, installing stationary trash and recycling bins in each park will help to reduce litter and improve the health and safety of the parks. However, while the state grant would pay for these bins to be installed, they would not pay for any future repairs or replacements, nor would they pay for the bins to be emptied regularly, which would be the task of the local Waste Management (""WM"") service maintained by the city.
+
+### What region is the engagement focused on? (e.g., city, county, state, national, etc.)
+Freeburg
+
+### Is the region urban, suburban, or rural? 
+Suburban
+
+### What groups of people will be affected by the outcome of the decision?
+Some of the parks sit on the line with a nearby municipality, whose residents often use the parks. This may be viewed as either a challenge or opportunity by Freeburg residents, who may wish for the improved parks to be kept for their own private use, or who may wish for the parks to be shared (as they have been in the past) to expand the kinds of activities that the parks may host (for example, elementary school sporting events). 
+
+There are several groups of constituents in the city, marked by demographic and geographic differences. Freeburg has a lower-altitude downtown (“DT”) that tends to have lower-income housing, in part due to historically long-standing social divisions, and in part due to the relatively high rate of flooding. The DT area has most of the city’s parks, but they tend to be far worse in quality, and are commonly policed (to many residents’ discomfort) to mitigate perceived issues with crime, which may or may not be the case. The DT area houses about 70% of the city’s residents, who are primarily from minority backgrounds. Freeburg also has a higher-altitude uptown (“UT”) area, whose residents tend to be higher-income. The UT area is the city’s financial and commerce district; as such, it brings in more out-of-city tourism and houses more of the city’s long-standing shopping (e.g., malls) entertainment venues (e.g., movie theaters). Residents of Freeburg are also divided by language. About 40% of the city’s residents are primarily Spanish-speaking, 8% are primarily Haitian-speaking, and 52% are primarily English-speaking. Throughout the city, signage (specifically, the languages used on public signage, such as those placed on parks) are an ongoing problem.
+
+### Which of these groups are you engaging?
+We will engage with residents in both the lower-altitude downtown (“DT”) and higher-altitude uptown (“UT”) areas.
+
+### What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?
+One-on-one semi-structured interviews
+
+### What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)
+60 minutes maximum
+
+### What is the breakdown of open-ended and close-ended questions?
+80 percent of questions are open-ended and the remaining are close-ended",,,,,- Link to some context: Step 2 Context (has some comments for things we could remove)
+Generate initial survey based on responses to starting prompts + generate rationale for an AI-generated question,First pass done,High,Danny,Generating initial questions with LLMs,gpt-4o-2024-05-13,Yes,No,CreateSurveyDraft,CreateDraftModule,"<role>
+You are an advanced survey builder designed to use the information provided by users to create surveys that they can use for their constituents.
+</role>
+
+<instructions>
+Please think step-by-step and follow these instructions carefully.
+1. Please read and re-read the context that the user has provided previously.
+2. Please generate a title for the survey. The title should be brief yet descriptive, accurately capturing the core context that is being explored through this survey endeavor. 
+3. Please generate a list of questions to help the user elicit useful information from their constituents. The total number of questions should be compatible with the time limit specified in the context. The proportion of open and closed questions is also defined in the context. 
+4. Please organize the questions into sections. Each section should have a title. The questions should progress logically and linearly through a <beginning>, <middle>, and <end> to form a full survey. 
+5. Please review the questions provided and compose a detailed explanation for why that question is being asked of members of the given community. Please keep your response between 20 and 50 words. Use semicolons to separate list items. Please start your response with “This question” followed by your rationale. For example: “This question is being asked in order to... These rationales should populate the “rationale” field in the JSON output.
+6. Ensure that your output excludes any references to the instructions provided. For example, exclude reference to <beginning>, <middle>, or <end>.
+
+<beginning>
+To construct the first few questions in your survey, think step-by-step and follow these instructions carefully.
+1. Provide initial context on the survey, which includes the purpose and length.
+2. Specify how the information will be used in a way that highlights possible benefits of the survey for the community and respondent themselves.
+3. Assure respondents of complete anonymity.
+</beginning>
+
+<middle>
+To construct the next few questions in your survey, abide by these principles:
+Principle 1. It’s usually best to start a survey with general questions that will be easy for a respondent to answer.
+Principle 2. It is best to organize the survey logically and to guide respondents without jumping from one topic to another, which can irritate respondents.
+Principle 3. Denote changes in topic with a new section. Also introduce new topics and explain why they are being asked.
+Principle 4. Things mentioned early in a survey can impact answers later, so care must be taken when ordering the questions.
+Principle 5. Keep the survey short. Respondents are less likely to answer a long questionnaire than a short one, and often pay less attention to questionnaires which seem long, monotonous, or boring.
+Principle 6. Include both open-ended and closed-ended questions. But use open-ended questions sparingly and place them earlier on in the survey while respondents are less tired.
+</middle>
+
+<end>
+To construct the final few questions in your survey, think step-by-step and follow these instructions carefully.
+1. It’s usually best to ask any sensitive questions, including demographics (especially income), near the end of the survey
+2. Use a clearinghouse question. Example is “Is there any additional context you’d like to share on your responses to the previous questions, or anything else you’d like to share?”
+3. Lay the groundwork for future contact. Explain what will happen next, where it will happen, when it will happen, and why it will happen.
+</end>
+</instructions>","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question.""}","{""questions"": ""The sections and questions. The output should be a list of JSON objects enclosed in square brackets, with each object separated by a comma. Each JSON object should have the following structure: {section_json_format}."", ""title"": ""The title of the survey as a string.""}","### What is the problem to be solved or the decision to be made?
+The Parks Department (""PD"") of a relatively small Massachusetts city (“Freeburg”) was recently granted state funds to make improvements to local parks. The PD doesn’t often receive grants of this size, so they want to make sure they use the funds effectively; if they use all the funds, they may be eligible for another grant next year.
+
+Freeburg has 13 parks. Some are quite small, and would only require minimal improvements (e.g., tree-planting, de-weeding), whereas others will require major improvements to address safety and usability concerns.
+
+Parks in wealthier neighborhoods of Freeburg tend to be nicer, which some residents believe may reflect a discrepancy in how tax funds are used and distributed by the city. The residents who take issue with these distributions tend to be lower-income and tend to live farther away from these parks, which have “higher-class” amenities, like tennis courts, public bathrooms, and water fountains with ground-level dog-bowl attachments. 
+
+### What information is needed from the public to make the decision?
+The parks were once well-kept, but in recent years, have been in a state of disarray, reflecting economic challenges that hit Freeburg hard during the COVID-19 pandemic. The PD needs to survey the residents of the Freeburg community to understand their needs, interests, and priorities as they relate to the local parks; this information will be used to inform what kinds of improvements are made to the parks.
+
+The PD acknowledges that some improvements made by grant funds may lead to downstream costs that would not be covered by the grant, but the PD wishes to explore these anyway, due to their impact and long-term value for community members. For example, installing stationary trash and recycling bins in each park will help to reduce litter and improve the health and safety of the parks. However, while the state grant would pay for these bins to be installed, they would not pay for any future repairs or replacements, nor would they pay for the bins to be emptied regularly, which would be the task of the local Waste Management (""WM"") service maintained by the city.
+
+### What region is the engagement focused on? (e.g., city, county, state, national, etc.)
+Freeburg
+
+### Is the region urban, suburban, or rural? 
+Suburban
+
+### What groups of people will be affected by the outcome of the decision?
+Some of the parks sit on the line with a nearby municipality, whose residents often use the parks. This may be viewed as either a challenge or opportunity by Freeburg residents, who may wish for the improved parks to be kept for their own private use, or who may wish for the parks to be shared (as they have been in the past) to expand the kinds of activities that the parks may host (for example, elementary school sporting events). 
+
+There are several groups of constituents in the city, marked by demographic and geographic differences. Freeburg has a lower-altitude downtown (“DT”) that tends to have lower-income housing, in part due to historically long-standing social divisions, and in part due to the relatively high rate of flooding. The DT area has most of the city’s parks, but they tend to be far worse in quality, and are commonly policed (to many residents’ discomfort) to mitigate perceived issues with crime, which may or may not be the case. The DT area houses about 70% of the city’s residents, who are primarily from minority backgrounds. Freeburg also has a higher-altitude uptown (“UT”) area, whose residents tend to be higher-income. The UT area is the city’s financial and commerce district; as such, it brings in more out-of-city tourism and houses more of the city’s long-standing shopping (e.g., malls) entertainment venues (e.g., movie theaters). Residents of Freeburg are also divided by language. About 40% of the city’s residents are primarily Spanish-speaking, 8% are primarily Haitian-speaking, and 52% are primarily English-speaking. Throughout the city, signage (specifically, the languages used on public signage, such as those placed on parks) are an ongoing problem.
+
+### Which of these groups are you engaging?
+We will engage with residents in both the lower-altitude downtown (“DT”) and higher-altitude uptown (“UT”) areas.
+
+### What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?
+Online survey
+
+### What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)
+10 minutes maximum
+
+### What is the breakdown of open-ended and close-ended questions?
+20 percent of questions are open-ended and the remaining are close-ended",,,,,- Link to some context: Step 2 Context (has some comments for things we could remove)
+Generate initial conversation guide based on responses to starting prompts + generate rationale for an AI-generated question,First pass done,Medium,Cassandra,Generating initial questions with LLMs,gpt-4o-2024-05-13,Yes,No,CreateConversationGuideDraft,CreateDraftModule,"<role>
+You are an advanced conversation guide builder designed to use the information provided by users to create questions for a series of facilitated small-group conversations with constituents. The conversation guide will be given to facilitators who are in charge of asking the questions and moderating the conversation. 
+</role>
+
+<instructions>
+Please think step-by-step and follow these instructions carefully.
+1. Please read and re-read the context that the user has provided previously.
+2. Please generate a title for the conversation guide. The title should be brief yet descriptive, accurately capturing the core context that is being explored through this conversation project.
+3. Please generate a list of questions to help facilitators elicit useful information from their constituents. The total number of questions should be compatible with the time limit specified in the context. The proportion of open and closed questions is also defined in the context.
+4. Please organize the questions into sections. Each section should have a title. The questions should progress logically and linearly through a <beginning>, <middle>, and <end> to form a full conversation guide. Make sure the conversation guide stays within the time limit specified in the context.
+5. Please review the questions provided and compose a detailed explanation for why that question is being asked of members of the given community. Please keep your response between 20 and 50 words. Use semicolons to separate list items. Please start your response with “This question” followed by your rationale. For example: “This question is being asked in order to... These rationales should populate the “rationale” field in the JSON output.
+6. Ensure that your output excludes any references to the instructions provided. For example, exclude reference to <beginning>, <middle>, or <end>.
+
+<beginning>
+To construct the first few sections in your conversation guide, think step-by-step and follow these guidelines carefully.
+1. Introduction of purpose and housekeeping (3 to 5 minutes for a group with four people): welcome all participants, introduce the project, and share key administrative information about the process. This section is important because it sets the tone for the experience that will be shared among the participants and facilitator and serves as a reminder for the how and the why of everyone’s participation and role. Here is an example: “Welcome to this conversation. Thanks for agreeing to participate in this conversation!
+
+I have begun recording at this time, and I need to share a little information with you before we begin our conversation. Following our conversation today, the video recording will be discarded, and the audio will become part of a collection.
+
+There are three main purposes for this conversation: First, we want to create a new space for community members to listen and learn about each other’s lives. Second, we want to connect across groups and build our relationships with one another. Third, we want to create a unique listening channel through which we will lift up the voices and needs of the community in order to build a healthier public sphere. 
+
+To this end, we are inviting you to have a different type of conversation. These conversations are focused on sharing our personal stories from our lived experience, rather than beginning the conversation with our positions on issues. We are doing this in order to help build connections and to foster conversations that improve our understanding of one another. 
+
+As a participant in this conversation, you are providing consent for us to use and retain the recording in accordance with our mission of fostering conversations in communities and in the media that improve our understanding of one another.
+
+If you understand and agree to this, please say “I agree”.”
+
+2. Conversation agreements (2 to 5 minutes for a group with four people): introduce a set of guidelines, which are agreements to support the facilitator in case any challenges arise during the conversation. This section is important to ensure we have mutually agreed upon norms for participation. Here is an example: “We want to make sure that everyone gets a chance both to share and to learn from others in this conversation, and to support those goals we have a few guidelines for our conversation. 
+
+Speak for yourself and out of your own experiences 
+Allow others to speak for themselves
+Share the time - allow others to finish speaking, take turns
+Stay curious - ask honest questions
+Pause - take time for reflection
+Listen generously - assume good intentions while recognizing that your words have an impact
+When possible, close unnecessary programs, applications, and notifications and put your phone on silent.
+
+Is everyone on board with these guidelines? Is there anything you would like to add or change?”
+
+3. Introductions and check-ins (around 5 minutes for a group with four people): facilitator invites everyone to a quick round of introductions. This section is important because it prompts the participants to build rapport with each other and supports the feeling that they are already beginning to form some connections with each other. Here is an example: “For the ease of this conversation, we are going to use a modified “circle” process where each person will take a turn. I’ll help transition us from one person to the next. You can always pass, or pass and ask for us to come back to you.
+
+Does anyone have any questions about this process?
+
+Ok, to begin, we want to do a quick round of introductions. Please share just your first name (or a pseudonym). In addition to your first name, please share:
+
+...a little bit of background info about who you are, like where you live, or what you do and
+
+...a value that is important to you and how it is related to what brought you here today.
+
+For this first round, I’ll start…”
+</beginning>
+
+<middle>
+To construct the next few sections in your conversation guide, create activities that would be the most helpful given the context that the user has provided previously. Make sure not to create activities that go beyond the time limit specified in the context. For each section, generate core, required prompts and optional follow-up prompts. Denote the optional prompts with “(Optional)” at the beginning of the question. Keep in mind the following forms of questions:
+1.  Journey forms: these questions ask for descriptions of stories, experiences, and events. They might start with the following stems: “Share a story about”, “How did it happen that”, “Tell me about a time when”, “What was an event that”.
+
+2. Imagination forms: these questions ask the participant to use their imagination, draw on hopes, and speculate on scenarios. They might start with the following stems: “Imagine it is 5 years from now”, “Share your hopes and dreams about”, “Thinking about the future”.
+
+3. What, how, why, if / then forms: these questions are often more specific prompts that ask what, how, why, or if / then. They might start with the following stems: “Why is it that”, “What makes this a problem”, “If this...then what happens?”, “How is this a problem or possible solution for”.
+
+Also keep in mind the following types of activities. You can a subset of these in the conversation guide or create your own activities. Make sure not to pick or create too many activities that go beyond the time limit specified in the context. Around one to two activities is sufficient for a 60-minute conversation.
+1. Story for starters (around 15 minutes for a group with four people): ask everyone to share an opener story. This activity is helpful because it helps everyone transition into a storytelling mindset and makes participants feel more connected with each other. Here is an example: “The next thing we would like to do is invite you to share a little bit about your background. Take a minute and think of a memory or a personal story when your freedom was taken (or almost taken) away from you. What did that mean for you? 
+
+Follow-up prompts (optional):
+How did that experience impact your family, your job and/or school, and your friends?
+If you are a practitioner, or provider, when were you in a position to provide resources to someone who was in jeopardy of losing their freedom? What did that mean for you? What impact did it have on you and that individual?
+
+If it helps, you can reflect on the value you selected in the last round, and think of a story that illustrates a time when this value was either challenged or reinforced for you.”
+
+2. Rapid brainstorming (around 10 minutes for a group with four people): participants are invited to reflect on and share aloud any words, concepts, processes, individuals, and/or places they associate with the topic under discussion. This activity is helpful because it acts as a framing mechanism inviting participants to open up a broad spectrum of ideas, record their thoughts as they emerge, and create a visual memory of everyone’s contributions. Here is an example: “We will move now to explore our topic together through a brainstorm. I’d like to invite you to this brainstorming space on MURAL and ask you to come up with as many keywords and concepts as possible that each of you associates with different hopes and concerns around COVID-19 vaccination; 
+
+You can access each sticky note with a double click and start typing. If we run out of sticky notes, I will add more. We’ll have three minutes to do that and we’ll work in silence. There are no right or wrong responses in a brainstorm, so don’t think about it too much; just write down what comes to mind.  
+
+Any questions on the instructions? Let’s go!”
+
+3. Reflecting on the brainstorm (around 20 minutes for a group with four people): ask participants to reflect on the outputs of the brainstorm by considering their emotional state and possible patterns and insights. This activity is helpful because it encourages participants to pause and learn from each other. Here is an example: “Let’s now take a step back and look at what this group has created together. When you look at this, what insights arise? If this was a map of how our society thinks about this issue, what might you infer from it?”
+
+4. Sharing lived experiences (around 20 minutes for a group with four people): invite each participant to take a moment and think of a story that has deeply affected their views and perspectives on the topic under discussion. This activity is helpful because it engages people from their personal experiences rather than their opinions or talking points. Here is an example: “What do you love about your organization that you want to make sure carries forward through this merger? Share a story from your experience that will help us understand what you love and why.
+
+What most concerns you about this merger? If possible, share a story from your experience that will help us understand this concern a little better.”
+
+5. Connecting experiences (around 15 to 20 minutes for a group with four people): ask each participant to share a story that connects with something another person said. This activity is helpful because it allows participants to reflect and build on each other’s experiences and perspectives. Here is an example: “What I want you to do next is think back to each of the questions and experiences that were just shared in our group. Find someone whose question or experience resonates with your own life. 
+
+Then I want you to speak to that person and tell them why their question or experience resonated with you and share the story from your life that connects you with their experience. 
+
+Let’s give everyone a minute or two to reflect. Whoever is ready, can start us off.”
+
+6. Imagining alternatives (around 12 to 15 minutes for a group with four people): ask participants to look ahead to the future. This activity is helpful because it moves the conversation from shared lived experiences of the past to their present relevance and the future. Here is an example: “Let’s move onto thinking about what kind of systemic change we would like to see for other people who may share similar experiences with us in other communities that don’t have the same freedoms around the country. 
+
+Given our conversation today, how should our rules around public health and safety change to fully recognize your humanity? 
+
+Follow-up prompts (optional):
+What would the future of society look like if it did?
+Close your eyes. Imagine a future where everyone is able to experience the same kind of freedom you were able to. What does it feel like? What do you see?”
+
+7. Free-flow discussion around trust, information, and actions (around 30 minutes for a group with four people): the facilitator opens the floor for a freeflow discussion designed around three main pillars: trust, information, and actions. This activity is helpful because it creates a narrative arc between the past, the present, and the future. Here is an example: “Trust: When you think of your personal experiences related to childhood vaccination, where would you say you draw the most confidence from? And where are you puzzled about what to do?
+
+Information: When you think of all the information that is available out there, how do you determine which sources to trust before making decisions that concern your child’s well-being?
+
+Actions: When you think of how childhood vaccination should be addressed, how does your personal experience weigh into what you think would be helpful/suitable to be done today?”
+</middle>
+
+<end>
+To construct the final few sections in your conversation guide, think step-by-step and follow these guidelines carefully.
+1. Drawing connections (around 5 minutes for a group with four people): ask participants to reflect on what they heard from others and extract takeaways. This section is important because it helps people identify patterns and discuss what may be missing from the conversation. Here is an example: “For our last question, we invite you to share what is one thing you heard today that you’ll be taking away from this conversation and that you’d like other people to hear?”
+
+2. Wrap-up (around 5 minutes for a group with four people): take-aways and closing thoughts, reminders for recordings, and final logistics. This section is important because it ends the conversation. Here is an example: “Those are all of the questions that we have for you. Do you have any closing thoughts that you’d like to share or other general reflections on the conversation?
+
+Do you have any questions for us?
+
+Just a reminder of what will happen with the thoughts you just shared. These recordings will be transcribed and uploaded. You will receive an invitation to join a platform and explore your conversation and others after this conversation is uploaded and transcribed. 
+
+Thank you so much for joining us and sharing your thoughts!”
+</end>
+</instructions>","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question.""}","{""questions"": ""The sections and questions. The output should be a list of JSON objects enclosed in square brackets, with each object separated by a comma. Each JSON object should have the following structure: {section_json_format}."", ""title"": ""A short title of the conversation guide as a string.""}","### What is the problem to be solved or the decision to be made?
+The Parks Department (""PD"") of a relatively small Massachusetts city (“Freeburg”) was recently granted state funds to make improvements to local parks. The PD doesn’t often receive grants of this size, so they want to make sure they use the funds effectively; if they use all the funds, they may be eligible for another grant next year.
+
+Freeburg has 13 parks. Some are quite small, and would only require minimal improvements (e.g., tree-planting, de-weeding), whereas others will require major improvements to address safety and usability concerns.
+
+Parks in wealthier neighborhoods of Freeburg tend to be nicer, which some residents believe may reflect a discrepancy in how tax funds are used and distributed by the city. The residents who take issue with these distributions tend to be lower-income and tend to live farther away from these parks, which have “higher-class” amenities, like tennis courts, public bathrooms, and water fountains with ground-level dog-bowl attachments. 
+
+### What information is needed from the public to make the decision?
+The parks were once well-kept, but in recent years, have been in a state of disarray, reflecting economic challenges that hit Freeburg hard during the COVID-19 pandemic. The PD needs to interview residents of the Freeburg community to understand their needs, interests, and priorities as they relate to the local parks; this information will be used to inform what kinds of improvements are made to the parks.
+
+The PD acknowledges that some improvements made by grant funds may lead to downstream costs that would not be covered by the grant, but the PD wishes to explore these anyway, due to their impact and long-term value for community members. For example, installing stationary trash and recycling bins in each park will help to reduce litter and improve the health and safety of the parks. However, while the state grant would pay for these bins to be installed, they would not pay for any future repairs or replacements, nor would they pay for the bins to be emptied regularly, which would be the task of the local Waste Management (""WM"") service maintained by the city.
+
+### What region is the engagement focused on? (e.g., city, county, state, national, etc.)
+Freeburg
+
+### Is the region urban, suburban, or rural? 
+Suburban
+
+### What groups of people will be affected by the outcome of the decision?
+Some of the parks sit on the line with a nearby municipality, whose residents often use the parks. This may be viewed as either a challenge or opportunity by Freeburg residents, who may wish for the improved parks to be kept for their own private use, or who may wish for the parks to be shared (as they have been in the past) to expand the kinds of activities that the parks may host (for example, elementary school sporting events). 
+
+There are several groups of constituents in the city, marked by demographic and geographic differences. Freeburg has a lower-altitude downtown (“DT”) that tends to have lower-income housing, in part due to historically long-standing social divisions, and in part due to the relatively high rate of flooding. The DT area has most of the city’s parks, but they tend to be far worse in quality, and are commonly policed (to many residents’ discomfort) to mitigate perceived issues with crime, which may or may not be the case. The DT area houses about 70% of the city’s residents, who are primarily from minority backgrounds. Freeburg also has a higher-altitude uptown (“UT”) area, whose residents tend to be higher-income. The UT area is the city’s financial and commerce district; as such, it brings in more out-of-city tourism and houses more of the city’s long-standing shopping (e.g., malls) entertainment venues (e.g., movie theaters). Residents of Freeburg are also divided by language. About 40% of the city’s residents are primarily Spanish-speaking, 8% are primarily Haitian-speaking, and 52% are primarily English-speaking. Throughout the city, signage (specifically, the languages used on public signage, such as those placed on parks) are an ongoing problem.
+
+### Which of these groups are you engaging?
+We will engage with residents in both the lower-altitude downtown (“DT”) and higher-altitude uptown (“UT”) areas.
+
+### What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?
+Community conversations with 4-6 people and one facilitator
+
+### What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)
+90 minutes maximum
+
+### What is the breakdown of open-ended and close-ended questions?
+100 percent of questions are open-ended and the remaining are close-ended",,,,,- Link to some context: Step 2 Context (has some comments for things we could remove)
+Check to see if the response for a prompt is sufficient and Generate error / warning messages if the response for a prompt has major gaps,First pass done,High,Suyash,Creating a project from scratch,gpt-3.5-turbo,Yes,No,CheckPrompt,CheckPromptModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. The user has given you the inputted context in response to a question. 
+
+Please think step-by-step and follow these instructions carefully.
+
+1. Read the inputted question and user response.
+2. Determine whether the user response to sufficient context to generate a good first draft survey, interview guide, or conversation guide by going through the inputted advice and seeing what is mentioned in the user response.
+3. Calculate a score that rates the response's informativeness.
+4. Generate a list of mutually exclusive suggestions on how the user can improve their response. Reference any inputted advice that is missing from the user response when creating the suggestions.
+5. Remove all suggestions that are conceptually similar to the inputted ignored suggestions.
+6. Output the revised list of suggestions in the requested format.","{""context_question"": ""The question that the user is responding to."", ""user_response"": ""The user's response to the question."", ""advice"": ""Principles to keep in mind when evaluating whether the user's response is sufficient."", ""ignored_suggestions"": ""A list of suggestions that the user ignored that should not be suggested again.""}","{""inform_score"": ""A score between 1-10 that rates the response's informativeness. Return the score as a single integer."", ""suggestions"": ""A list of suggestions to make the response more informative according to the principles in the input. The list should be a string where each element is separated by a semicolon. Do not number the items in the list.""}","test_input = {
+        ""context_question"": ""Tell me about your community."",
+        ""user_response"": ""There are many people."",
+        ""advice"": ""Be specific; Mention demographics"",
+        ""ignored_suggestions"": ""Mention common interests or activities within your community""
+    }",,,,,"- Improvement possibilities in https://github.com/mit-ccc/coalesce-question-generation/issues/139  
+- score threshold is <= 5
+- sometimes generates the suggestion in the wrong format where they number the items instead of separate them with semicolons"
+Find topics based on intial context,Refined,High,Danny,Analyze topics,gpt-4o-2024-05-13,Yes,No,DetectTopics,DetectTopicsModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents.
+
+Please take the inputted context. Read and re-read the context carefully. Then, please identify a small set of mutually exclusive topics that a community survey or interview guide should touch upon, based on the inputted context. You should return a list in the requested format where each item is a topic, and where each topic is described concisely in as few words as possible. Topics should be separated by semicolons. Do not number the items in the list.","{""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question.""}","{""topics"": ""A list of topics. The list should be a string where each topic is separated by a semicolon. Do not number the items in the list.""}","### What is the problem to be solved or the decision to be made?
+The Parks Department (""PD"") of a relatively small Massachusetts city (“Freeburg”) was recently granted state funds to make improvements to local parks. The PD doesn’t often receive grants of this size, so they want to make sure they use the funds effectively; if they use all the funds, they may be eligible for another grant next year.
+
+Freeburg has 13 parks. Some are quite small, and would only require minimal improvements (e.g., tree-planting, de-weeding), whereas others will require major improvements to address safety and usability concerns.
+
+Parks in wealthier neighborhoods of Freeburg tend to be nicer, which some residents believe may reflect a discrepancy in how tax funds are used and distributed by the city. The residents who take issue with these distributions tend to be lower-income and tend to live farther away from these parks, which have “higher-class” amenities, like tennis courts, public bathrooms, and water fountains with ground-level dog-bowl attachments. 
+
+### What information is needed from the public to make the decision?
+The parks were once well-kept, but in recent years, have been in a state of disarray, reflecting economic challenges that hit Freeburg hard during the COVID-19 pandemic. The PD needs to interview residents of the Freeburg community to understand their needs, interests, and priorities as they relate to the local parks; this information will be used to inform what kinds of improvements are made to the parks.
+
+The PD acknowledges that some improvements made by grant funds may lead to downstream costs that would not be covered by the grant, but the PD wishes to explore these anyway, due to their impact and long-term value for community members. For example, installing stationary trash and recycling bins in each park will help to reduce litter and improve the health and safety of the parks. However, while the state grant would pay for these bins to be installed, they would not pay for any future repairs or replacements, nor would they pay for the bins to be emptied regularly, which would be the task of the local Waste Management (""WM"") service maintained by the city.
+
+### What region is the engagement focused on? (e.g., city, county, state, national, etc.)
+Freeburg
+
+### Is the region urban, suburban, or rural? 
+Suburban
+
+### What groups of people will be affected by the outcome of the decision?
+Some of the parks sit on the line with a nearby municipality, whose residents often use the parks. This may be viewed as either a challenge or opportunity by Freeburg residents, who may wish for the improved parks to be kept for their own private use, or who may wish for the parks to be shared (as they have been in the past) to expand the kinds of activities that the parks may host (for example, elementary school sporting events). 
+
+There are several groups of constituents in the city, marked by demographic and geographic differences. Freeburg has a lower-altitude downtown (“DT”) that tends to have lower-income housing, in part due to historically long-standing social divisions, and in part due to the relatively high rate of flooding. The DT area has most of the city’s parks, but they tend to be far worse in quality, and are commonly policed (to many residents’ discomfort) to mitigate perceived issues with crime, which may or may not be the case. The DT area houses about 70% of the city’s residents, who are primarily from minority backgrounds. Freeburg also has a higher-altitude uptown (“UT”) area, whose residents tend to be higher-income. The UT area is the city’s financial and commerce district; as such, it brings in more out-of-city tourism and houses more of the city’s long-standing shopping (e.g., malls) entertainment venues (e.g., movie theaters). Residents of Freeburg are also divided by language. About 40% of the city’s residents are primarily Spanish-speaking, 8% are primarily Haitian-speaking, and 52% are primarily English-speaking. Throughout the city, signage (specifically, the languages used on public signage, such as those placed on parks) are an ongoing problem.
+
+### Which of these groups are you engaging?
+We will engage with residents in both the lower-altitude downtown (“DT”) and higher-altitude uptown (“UT”) areas.
+
+### What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?
+One-on-one semi-structured interviews
+
+### What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)
+60 minutes maximum
+
+### What is the breakdown of open-ended and close-ended questions?
+80 percent of questions are open-ended and the remaining are close-ended",,,,,"- could ask the model to produce descriptions for each topic: https://github.com/mit-ccc/coalesce-question-generation/issues/118
+- some topic names still seem pretty long, could shorten them? --> it's fine to have them longer so they are more comprehensive for users"
+Classify each question to one or more existing topics,Refined,High,Danny,Analyze topics,gpt-4o-2024-05-13,Yes,No,ClassifyTopics,ClassifyTopicsModule,"Please think step-by-step and follow these instructions carefully.
+
+1. Read the inputted question, list of pre-selected topics, and list of all topics.
+2. For each topic in the pre-selected list, verify that the question text connects either explicitly or implicitly with the topic. Be more generous with topics in the pre-selected list.
+3. If the question fits into a topic, add that topic to the list of topics that the question is connected with.
+4. Go through the remaining topics that are not in the pre-selected topics and determine if the question text explicitly connects with the topic. Do not make assumptions or inferences about whether the question or responses to the question are related to a topic. If the question fits into a topic, add them to the list.
+5. Return the list of topics that the question is connected with. If the question doesn't fit into any of the inputted topics, return None.","{""question"": ""The question to classify. The input will be a JSON with the following structure: {cell_details_json_format}"", ""all_topics"": ""A list of all topics. The list is a string where each topic is separated by a semicolon."", ""pre_selected_topics"": ""A list of pre-selected topics for the question. The list is a string where each topic is separated by a semicolon.""}","{""classified_topics"": ""A list of topics that the question is connected with. The list should be a string where each topic is separated by a semicolon. Do not number the items in the list. If the question doesn't fit into any of the inputted topics, return None.""}","{
+    ""cell_type"": ""question"",
+    ""response_format"": ""open"",
+    ""description"": """",
+    ""main_text"": ""How often do you visit X Park?"",
+    ""response_categories"": []
+}",,,,,"- might want to optimize this prompt --> nah
+- sometimes the model generates new topics which it should not --> fixed with post-processing
+- the model tends to be more generous with its classifications when it should be more conservative. I want this prompt to be more conservative. I would rather have more unclassified questions than wrongly classified questions because it's easier for users to go through the unclassified questions and classify them versus having to find all the misclassified ones in the greater pool of topics --> much better with gpt4o
+- ignore the description field --> done"
+Generate suggestions for questions that could be added at the topic-level,First pass done,High,Cassandra,Analyze topics,gpt-4o-2024-05-13,Yes,No,AddQuestionsToTopic,AddQuestionsToTopicModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. 
+
+Please think step-by-step and follow these instructions carefully.
+1. Please read through the existing questions for the inputted topic and the context that the user has provided.
+2. Identify gaps in the existing questions, which relate to the inputted topic. For each gap, generate one or more questions that are explicitly connected to the inputted topic.
+3. Generate time estimates in minutes for each question, which should populate the time_estimate field in the JSON output.
+4. Please review the additional questions and compose a detailed explanation for how this question differs from the existing questions. Please keep your response between 20 and 50 words. Please start your response with ""This question"" followed by your rationale. For example: ""This question is being asked in order to..."" These rationales should populate the rationale field in the JSON output.
+5. Determine which sections from the inputted sections each question should be added to and provide the section_id in the JSON output.","{
+    ""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question."",
+    ""topic"": ""The topic for which the user wants to generate questions."",
+    ""existing_questions"": ""The existing questions for the inputted topic. The questions are organized as a list of JSONs. Each JSON follows the following structure: {cell_details_json_format}"",
+""sections"": ""The current sections in the survey or interview guide. The sections are organized as a list of JSONs. Each JSON follows the following structure: {analyze_topic_section_json_format}""
+}","{
+    ""additional_questions"": ""Additional questions for a topic. The output should be a list of JSONs surrounded by square brackets, where each element has the following structure: {analyze_topic_question_json_format}. Do not number the items in the list."",
+    ""gaps"": ""A list of gaps in the existing questions. The list should be a string where each gap is separated by a semicolon. Do not number the items in the list.""
+}",,,,,,"- Sometimes the `response_categories` field is not generated for open questions --> fixed in post-processing step
+- sometimes closed questions also don't have a `response_categories` field --> for now, we just drop them"
+Generate suggestions for questions that could be removed at the topic-level,First pass done,High,Cassandra,Analyze topics,gpt-4o-2024-05-13,Yes,No,RemoveQuestionsInTopic,RemoveQuestionsInTopicModule,"You are an advanced question creator designed to use the information provided by users to create surveys, interview guides, and conversation guides that they can use for their constituents. 
+
+Please think step-by-step and follow these instructions carefully.
+1. Please read through the context that the user has provided.
+2. Please read through the existing questions for the inputted topic.
+3. Identify an inputted number of questions in the existing set that could be removed. Consider the following factors when deciding which questions to remove, ordered by priority: (1) redundancy to other questions, (2) relevance to the topic, and (3) importance given the inputted context.
+4. Please review the selected questions and compose a detailed explanation for why each question can be removed. If the rationale mentions the context, quote relevant parts of the context. If the rationale references another question, please quote that question in the rationale. Please keep your response between 20 and 50 words. Please start your response with ""This question"" followed by your rationale. For example: ""This question can be deleted because..."" These rationales should populate the rationale field in the JSON output.","{
+    ""context"": ""The context provided by the user. The context is organized by sections. Each section starts with three hashtag characters (###) followed by a question."",
+    ""topic"": ""The topic for which the user wants to generate questions."",
+    ""number_of_questions_to_remove"": ""The number of questions to remove from the existing set of questions."",
+    ""existing_questions"": ""The existing questions for the inputted topic. The questions are organized as a list of JSONs. Each JSON follows the following structure: {cell_details_json_format}""
+}","{
+    ""questions_to_remove"": ""A subset of the existing questions that can be removed. The output should be a list of JSONs surrounded by square brackets, where each element has the following structure: {analyze_topic_deletion_question_json_format}. Do not number the items in the list.""
+}",,,,,,"- OPTIONAL TODO: we could separately examine the three factors: relevance to the topic, redundancy to other questions, and importance given the inputted context"
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+Calculate section-level time estimate,First pass done,Medium,Suyash,Time estimates,,No,No,,,"Please think step-by-step and follow the sequence below:
+1. Review the list of questions provided below. Count the number of open-ended questions and closed-ended questions.
+2. Assume that each open-ended question takes between 30 to 45 seconds to complete. 
+3. Assume that each closed-ended question takes between 12 - 30 seconds to complete.
+4. Calculate the duration range (e.g., ""5 - 7 minutes"") that the survey should take based on the number of open-ended and closed-ended questions. Do not show any of your reasoning steps. Only display the duration range (e.g., ""5 - 7 minutes""). If a number in the duration range is followed by a decimal (e.g., 1.6), round to the nearest decimal that is an increment of 0.5 (e.g.,  ""1.6"" would round to ""1.5"" and ""2.9"" would round to ""3""). Delete any quotation marks ("") from your response.
+
+Here is the list of questions:
+-How often do you visit the local parks in Freeburg?
+-Which park(s) do you visit most frequently and why?
+-Are there any parks you avoid visiting? If so, why?
+-How do you typically get to the parks (e.g., walking, biking, public transportation, driving)?
+-Would you prefer to have free parking at the local parks? Please answer ""Yes"" or ""No"".",,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+Generate example questions,First pass done,High,Cassandra,Internal,gpt-4-0125-preview,Yes,,CreateQuestions,,"Create a variety of questions from a prompt. All of these questions will be asked to community members in an online survey to inform a decision around city resources and services. 
+The number of questions to generate is given as an input.
+Please generate questions that are different from the ones already generated, which are inputted.
+The output should be a list of JSONs with the following structure:
+    [
+        {
+            ""response_format"": ""open"" or ""closed"",
+            ""description"": string,
+            ""main_text"": string,
+            ""response_categories"": empty list for open questions or list of JSONs with an ""id"" and ""text"" field for closed questions
+        }
+    ]","{""number"": ""An integer representing the number of questions to generate."",
+""prompt"": ""The prompt to generate questions from."",
+""prev_questions"": ""A list of questions that have already been generated. Each question is separated by a semi-colon.""}","{""questions"": ""The generated questions.""}",,,,,generateTestQuestions.ipynb,"- works decently well
+- need to limit number of response categories for closed questions
+- I customize the generation prompts based on what I'm generating the questions for
+- outputs in generated_questions folder"
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+Generate suggestions for questions that could be combined at the topic-level,Dropped for now,High,Cassandra,Analyze topics,,No,No,,,,,,,,,,,
+Assess applicability of a question,Dropped for now,High,Cassandra,Check question,,,,,,,,,,,,,,
+Converting an open-ended question to a close-ended question,First pass done,Low,Suyash,Switching response format,,No,No,,,"Please convert the following open-ended question to a closed-ended question. [QUESTION]. The question should be in the format {
+        ""response_format"": ""closed""
+        ""description"": string,
+        ""main_text"": string,
+        ""response_categories"": empty list or list of JSONs with an ""id"" and ""text"" field
+   } ",,,How often do you visit the local parks in Freeburg?,,,,,
+Converting a close-ended question to an open-ended question,First pass done,Low,Suyash,Switching response format,,No,No,,,"Please convert the following close-ended question to a open-ended question. [QUESTION]. The question should be in the format {
+        ""response_format"": ""closed""
+        ""description"": string,
+        ""main_text"": string,
+        ""response_categories"": []
+   } ",,,,,,,,
+Generate a potential title for the project,First pass done,Low,Danny,Generating initial questions with LLMs,gpt-3.5-turbo,No,No,,,"Please generate a title for the survey project being constructed through the given process. 
+
+The title should be brief yet descriptive, accurately capturing the core context that is being explored through this survey endeavor. 
+
+The context is as follows: {CONTEXT}",,,,,,,,- Integrated into the CreateDraftModule prompts

@@ -1,0 +1,56 @@
+{
+  "name": "ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@edorivai/react-smooth-dnd": "^0.11.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.12",
+    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/material": "^5.15.12",
+    "@reduxjs/toolkit": "^2.2.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "array-move": "^4.0.0",
+    "d3": "^7.9.0",
+    "randomcolor": "^0.6.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-material-ui-carousel": "^3.4.2",
+    "react-player": "^2.16.0",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.22.2",
+    "react-scripts": "5.0.1",
+    "shelljs": "^0.8.5",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "node scripts/deploy.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://127.0.0.1:5194"
+}

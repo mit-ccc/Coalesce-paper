@@ -1,0 +1,81 @@
+{
+  "question_type": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"What is your age?\", \"response_categories\": []}",
+        "rationale": "produce the question type. We are asking for specific personal background information.",
+        "question_type": "demographic"
+      },
+      {
+        "augmented": true,
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"What is your gender?\", \"response_categories\": []}",
+        "rationale": "produce the question type. We are asking for personal background information related to gender.",
+        "question_type": "demographic"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"What is your preferred method of communication?\", \"response_categories\": [{\"id\": 1, \"text\": \"Email\"}, {\"id\": 2, \"text\": \"Phone call\"}, {\"id\": 3, \"text\": \"Text message\"}, {\"id\": 4, \"text\": \"In-person\"}, {\"id\": 5, \"text\": \"Video call\"}]}",
+        "question_type": "behavioral"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"How do you feel about the current state of climate change?\", \"response_categories\": []}",
+        "question_type": "attitudinal"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"What is your age group?\", \"response_categories\": [{\"id\": 1, \"text\": \"Under 18\"}, {\"id\": 2, \"text\": \"18-24\"}, {\"id\": 3, \"text\": \"25-34\"}, {\"id\": 4, \"text\": \"35-44\"}, {\"id\": 5, \"text\": \"45 and above\"}]}",
+        "question_type": "demographic"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"What is your current employment status?\", \"response_categories\": []}",
+        "question_type": "demographic"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"What is your gender?\", \"response_categories\": [{\"id\": 1, \"text\": \"Male\"}, {\"id\": 2, \"text\": \"Female\"}, {\"id\": 3, \"text\": \"Non-binary\"}, {\"id\": 4, \"text\": \"Prefer not to say\"}]}",
+        "question_type": "demographic"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"How often do you exercise in a week?\", \"response_categories\": [{\"id\": 1, \"text\": \"Never\"}, {\"id\": 2, \"text\": \"1-2 times\"}, {\"id\": 3, \"text\": \"3-4 times\"}, {\"id\": 4, \"text\": \"5-6 times\"}, {\"id\": 5, \"text\": \"Everyday\"}]}",
+        "question_type": "behavioral"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"How do you usually manage your time when you have multiple tasks to complete?\", \"response_categories\": []}",
+        "question_type": "behavioral"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"What actions do you take to reduce your environmental impact?\", \"response_categories\": []}",
+        "question_type": "attitudinal"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"Can you describe a time when you had to solve a complex problem? What was your approach?\", \"response_categories\": []}",
+        "question_type": "behavioral"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"How important do you think art is in society?\", \"response_categories\": [{\"id\": 1, \"text\": \"Not at all important\"}, {\"id\": 2, \"text\": \"Slightly important\"}, {\"id\": 3, \"text\": \"Moderately important\"}, {\"id\": 4, \"text\": \"Very important\"}, {\"id\": 5, \"text\": \"Extremely important\"}]}",
+        "question_type": "attitudinal"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"What is your highest level of education?\", \"response_categories\": [{\"id\": 1, \"text\": \"High school or less\"}, {\"id\": 2, \"text\": \"Some college\"}, {\"id\": 3, \"text\": \"Bachelor's degree\"}, {\"id\": 4, \"text\": \"Master's degree\"}, {\"id\": 5, \"text\": \"Doctorate or higher\"}]}",
+        "question_type": "demographic"
+      },
+      {
+        "question": "{\"response_format\": \"closed\", \"description\": \"\", \"main_text\": \"How important is regular physical exercise to you?\", \"response_categories\": [{\"id\": 1, \"text\": \"Very important\"}, {\"id\": 2, \"text\": \"Somewhat important\"}, {\"id\": 3, \"text\": \"Neutral\"}, {\"id\": 4, \"text\": \"Not very important\"}, {\"id\": 5, \"text\": \"Not at all important\"}]}",
+        "question_type": "attitudinal"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"How do you feel about immigrants in your country?\", \"response_categories\": []}",
+        "question_type": "attitudinal"
+      },
+      {
+        "question": "{\"response_format\": \"open\", \"description\": \"\", \"main_text\": \"How often do you exercise in a week and what kind of exercises do you usually do?\", \"response_categories\": []}",
+        "question_type": "behavioral"
+      }
+    ],
+    "signature_instructions": "Classify the question type. There are three types of questions: demographic, attitudinal, and behavioral.\n       Demographic questions ask about the personal background of respondents.\n       Attitudinal questions ask about respondents' personal perceptions and opinions on different topics.\n       Behavioral questions ask for data on the frequency and way in which particular actions are performed.\n    ",
+    "signature_prefix": "Question Type:",
+    "extended_signature_instructions": "Classify the question type. There are three types of questions: demographic, attitudinal, and behavioral.\n       Demographic questions ask about the personal background of respondents.\n       Attitudinal questions ask about respondents' personal perceptions and opinions on different topics.\n       Behavioral questions ask for data on the frequency and way in which particular actions are performed.\n    ",
+    "extended_signature_prefix": "Question Type:"
+  }
+}

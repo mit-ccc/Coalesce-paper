@@ -1,0 +1,63 @@
+{
+  "questions": {
+    "0": {
+      "question": "What is the problem to be solved or the decision to be made?",
+      "advice": [
+        "It's clear whether the project has to do with a program, service, or physical location (e.g., a park, a building, a street, etc.)",
+        "The problem or decision is specific and not too broad (e.g., 'How can we improve our city?' is too broad; 'How can we improve our city's parks?' is more specific)",
+        "Information on things that are already known about the problem or decision is included (e.g., 'We know that the park is underused because of a survey we conducted last year')",
+        "Any important constraints or limitations are included (e.g., 'We can't spend more than $10,000 on this project')",
+        "The decision-making process is clear (e.g., 'We will use the feedback to make a final decision on whether to move forward with the project')"
+      ]
+    },
+    "1": {
+      "question": "What information is needed from the public to make the decision?",
+      "advice": [
+        "The information needed is specific and directly related to the problem or decision (e.g., 'We need to know what types of activities people would like to see in the park')",
+        "The information needed is not too broad (e.g., 'We need to know everything about the park' is too broad)",
+        "The information needed is not too narrow (e.g., 'We need to know what color to paint the park benches' is too narrow)",
+        "The information needed is not too technical or specialized (e.g., 'We need to know the chemical composition of the soil in the park' is too technical)"
+      ]
+    },
+    "2": {
+      "question": "What groups of people will be affected by the outcome of the decision?",
+      "advice": [
+        "The groups are clearly defined (e.g., 'residents of the neighborhood', 'business owners in the area', 'parents of school-age children', etc.)",
+        "Multiple groups are included if applicable (e.g., 'residents of the neighborhood' and 'business owners in the area')",
+        "Groups that may be indirectly affected are included if applicable (e.g., 'commuters who pass through the area')"
+      ]
+    },
+    "3": {
+      "question": "Which of these groups are you engaging?",
+      "advice": [
+        "The groups are clearly defined (e.g., 'residents of the neighborhood', 'business owners in the area', 'parents of school-age children', etc.)",
+        "Response considers subcommunities within the groups (e.g., 'youth in the neighborhood', 'seniors in the neighborhood')",
+        "Response considers why is it important to hear from these groups (e.g., 'We need to hear from parents of school-age children because they are the primary users of the park')",
+        "Response mentions history of engagement with these groups, if applicable (e.g., 'We have worked with the neighborhood association in the past')",
+        "Response mentions how much context these groups have about the project, if applicable (e.g., 'We have already conducted a survey with this group')",
+        "Response considers some of the known challenges these groups already face (e.g., 'We know that seniors in the neighborhood have limited mobility')"
+      ]
+    },
+    "4": {
+      "question": "What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?",
+      "advice": [
+        "Response mentions how many people are expected to engage in total (e.g., 'We expect to engage 100 people')",
+        "Response mentions where the survey, interviews, or conversations will be conducted (e.g., 'We will conduct a survey online and in person')",
+        "For interviews, focus groups, or conversations, response mentions how much experience the interviewer or facilitator has (e.g., 'The interviewer has conducted interviews in the past')",
+        "For focus groups or conversations, response mentions how many people will be in each group (e.g., 'We will have 4-6 people in each group')"
+      ]
+    },
+    "5": {
+      "question": "What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)",
+      "advice": []
+    },
+    "6": {
+      "question": "Please use the slider to specify the proportion of open-ended versus closed-ended questions you'd like.",
+      "advice": []
+    },
+    "7": {
+      "question": "(Optional) Please add any additional context that may be helpful when creating questions for the project.",
+      "advice": []
+    }
+  }
+}

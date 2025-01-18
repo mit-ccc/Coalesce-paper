@@ -1,0 +1,105 @@
+{
+  "questions": {
+    "0": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "It's important to clearly define the problem or decision to be made before engaging the public. This will help you determine what information you need from the public and how to engage them.",
+        "main_text": "What is the problem to be solved or the decision to be made?",
+        "response_categories": []
+      },
+      "response": "We are a group of municipal, industry, and thought leaders, gathering at a summit in Cambridge, Massachusetts to discuss the implications of using artificial intelligence technologies in education. During the summit, we will have breakout rooms during which some of us will be interviewing community members about their ideas and preferences. At the end of the summit, we will be putting together public recommendations that k-12 public schools will be using to determine how they will or won't use AI in their processes."
+    },
+    "1": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "Connecting the goals of the engagement to the public",
+        "main_text": "What information is needed from the public to make the decision?",
+        "response_categories": []
+      },
+      "response": "We need to know the general preferences (hopes, concerns) that the public, especially people who work in k-12 or people who have children in or entering k-12 education, has about the use of AI in education. We already know from prior surveys that people in our community are very concerned with this issue, especially the use of AI to write essays for students, but there are still a lot of unknowns otherwise, and we get the sense that our community has a lot of other concerns that we haven't had a chance to understand yet."
+    },
+    "2": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "Let's think broadly of who will be affected by the final decision. Some people will be directly affected, while others may be indirectly affected.",
+        "main_text": "What groups of people will be affected by the outcome of the decision?",
+        "response_categories": []
+      },
+      "response": "Students, teachers, and parents will be primarily affected by the outcome of the decision here. In a less direct way, the broader workforce will be affected, because education has long-term implications for workforce training and efficacy. For example, parents around here seem to be concerned about the use of AI to augment or replace student work, which might leave students less prepared to handle necessary tasks in the workplace, given whatever profession they might end up in, but especially work that might involve reading, writing, and data analysis."
+    },
+    "3": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "Focusing on the specific groups of people that we are designing questions for.",
+        "main_text": "Which of these groups are you engaging?",
+        "response_categories": []
+      },
+      "response": "We are most specifically trying to engage parents and teachers. We generally feel that we know where students stand on these issues."
+    },
+    "4": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "closed",
+        "description": "The form of engagement impacts the type of questions we create.",
+        "main_text": "What form of engagement (e.g., virtual convenings, one-on-one interviews, focus groups, surveys) will best solicit the input needed from the communities you hope to engage?",
+        "response_categories": ["Interview", "Survey", "Conversation Guide"]
+      },
+      "part_2_cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "",
+        "main_text": "(Optional) Please add more details about the form of engagement you selected.",
+        "response_categories": []
+      },
+      "response": "Conversation Guide",
+      "part_2_response": "We'll most likely be doing break-out focus groups during our summit to better understand experiences and opinions within small groups of four to six people who share roles within the community (for example, parents in one group, teachers in another group)."
+    },
+    "5": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "",
+        "main_text": "What is the maximum amount of time in minutes you can expect people to spend on the engagement? (e.g., 5 minutes, 30 minutes, 60 minutes, etc.)",
+        "response_categories": []
+      },
+      "response": "We want people to spend at most maybe 60 minutes in the actual conversations/interviews. Not everyone will be talking at the same time, so honestly, each person might just be speaking for about 5 minutes or so. We really aren't sure."
+    },
+    "6": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "slider",
+        "description": "",
+        "main_text": "Please use the slider to specify the proportion of open-ended versus closed-ended questions you'd like.",
+        "response_categories": [
+          {
+            "value": 0,
+            "label": "100% closed-ended"
+          },
+          {
+            "value": 50,
+            "label": "50% closed, 50% open"
+          },
+          {
+            "value": 100,
+            "label": "100% open-ended"
+          }
+        ]
+      },
+      "response": 95
+    },
+    "7": {
+      "cell_details": {
+        "cell_type": "question",
+        "response_format": "open",
+        "description": "",
+        "main_text": "(Optional) Please add any additional context that may be helpful when creating questions for the project.",
+        "response_categories": []
+      },
+      "response": ""
+    }
+  }
+}
